@@ -1,0 +1,241 @@
+
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Валентинка</title>
+
+  <!-- ПОДКЛЮЧЕНИЕ "Literata" как близкий аналог "Literature" (сам шрифт Instagram недоступен официально) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      /* тон слоновой кости */
+      --ivory: #f6f0e2;
+
+      /* "coral reef" диапазон (коралл/риф) */
+      --coral-1: #ff6f61;
+      --coral-2: #ff8a7a;
+      --coral-3: #ff4f7a;
+
+      --ink: #2b2b2b;
+      --card: rgba(255,255,255,0.55);
+      --card-border: rgba(255, 111, 97, 0.22);
+      --shadow: 0 18px 60px rgba(0,0,0,0.10);
+      --radius: 28px;
+    }
+
+    *{ box-sizing: border-box; }
+    html, body{
+      height: 100%;
+      margin: 0;
+      font-family: "Literata", serif;
+      color: var(--ink);
+      background: radial-gradient(1200px 900px at 20% 10%, rgba(255,111,97,0.18), transparent 55%),
+                  radial-gradient(900px 700px at 80% 90%, rgba(255,79,122,0.14), transparent 60%),
+                  var(--ivory);
+      overflow-x: hidden;
+    }
+
+    /* плавающие сердечки (текстовые <3) */
+    .hearts{
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .heart{
+      position: absolute;
+      font-weight: 600;
+      opacity: 0.9;
+      user-select: none;
+      filter: drop-shadow(0 6px 16px rgba(0,0,0,0.12));
+      transform: translateY(110vh);
+      animation: floatUp linear forwards;
+      white-space: pre;
+    }
+    @keyframes floatUp{
+      from{
+        transform: translateY(110vh) translateX(0) rotate(0deg);
+        opacity: 0;
+      }
+      10%{ opacity: 0.95; }
+      to{
+        transform: translateY(-20vh) translateX(var(--drift)) rotate(var(--rot));
+        opacity: 0;
+      }
+    }
+
+    .wrap{
+      min-height: 100%;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card{
+      width: min(720px, 100%);
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: clamp(22px, 4vw, 36px);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* нежный декоративный градиент на карточке */
+    .card::before{
+      content:"";
+      position: absolute;
+      inset: -2px;
+      background: radial-gradient(500px 220px at 20% 0%, rgba(255,111,97,0.25), transparent 60%),
+                  radial-gradient(450px 240px at 90% 110%, rgba(255,79,122,0.18), transparent 60%);
+      z-index: -1;
+    }
+
+    .title{
+      margin: 0 0 14px;
+      font-size: clamp(30px, 4.6vw, 52px);
+      line-height: 1.08;
+      letter-spacing: 0.2px;
+    }
+
+    .subtitle{
+      margin: 0 0 26px;
+      font-size: clamp(14px, 2.2vw, 18px);
+      opacity: 0.85;
+    }
+
+    .btn{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: min(420px, 100%);
+      padding: 16px 18px;
+      border-radius: 18px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 18px;
+      border: 1px solid rgba(255,111,97,0.38);
+      background: linear-gradient(135deg, rgba(255,111,97,0.92), rgba(255,138,122,0.92));
+      color: #fff;
+      box-shadow: 0 14px 32px rgba(255, 111, 97, 0.25);
+      transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+      cursor: pointer;
+    }
+
+    .btn:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 18px 40px rgba(255, 111, 97, 0.30);
+      filter: saturate(1.05);
+    }
+
+    .btn:active{
+      transform: translateY(0px) scale(0.99);
+    }
+
+    .mini{
+      margin-top: 16px;
+      font-size: 13px;
+      opacity: 0.7;
+    }
+
+    .pill{
+      display:inline-block;
+      margin-top: 12px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,111,97,0.25);
+      background: rgba(255,255,255,0.35);
+      font-size: 12px;
+      opacity: 0.85;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="hearts" id="hearts"></div>
+
+  <main class="wrap">
+    <section class="card">
+      <h1 class="title">будешь ли ты моей валентинкой?</h1>
+      <p class="subtitle">Нажми «ДА» — и откроется сюрприз 💌</p>
+
+      <a class="btn" id="yesBtn" href="#" rel="noopener">
+        ДА <span aria-hidden="true">♡</span>
+      </a>
+    </section>
+  </main>
+
+  <script>
+    // === НАСТРОЙ ССЫЛКИ КНОПКИ "ДА" ===
+    const YES_URL = "https://v0-klops2themoon.vercel.app/"; // <- поменяй на нужный сайт
+    document.getElementById("yesBtn").href = YES_URL;
+
+    // === ЛЕТАЮЩИЕ СЕРДЕЧКИ "<3" (коррал-риф оттенки) ===
+    const colors = ["#ff6f61", "#ff8a7a", "#ff4f7a"];
+    const heartsLayer = document.getElementById("hearts");
+
+    function spawnHeart(){
+      const el = document.createElement("div");
+      el.className = "heart";
+      el.textContent = "<3";
+
+      // позиция
+      const left = Math.random() * 100; // vw
+      el.style.left = left + "vw";
+
+      // размер
+      const size = 14 + Math.random() * 22; // px
+      el.style.fontSize = size + "px";
+
+      // цвет
+      el.style.color = colors[Math.floor(Math.random() * colors.length)];
+
+      // "дрейф" и поворот
+      const drift = (Math.random() * 120 - 60).toFixed(0) + "px";
+      const rot = (Math.random() * 60 - 30).toFixed(0) + "deg";
+      el.style.setProperty("--drift", drift);
+      el.style.setProperty("--rot", rot);
+
+      // длительность
+      const duration = 6 + Math.random() * 7; // s
+      el.style.animationDuration = duration + "s";
+
+      // небольшая задержка (чтобы появлялись не синхронно)
+      const delay = (Math.random() * 1.6).toFixed(2);
+      el.style.animationDelay = delay + "s";
+
+      heartsLayer.appendChild(el);
+
+      // удалить после анимации
+      const ttl = (duration + parseFloat(delay) + 0.2) * 1000;
+      setTimeout(() => el.remove(), ttl);
+    }
+
+    // частота сердечек
+    const intervalMs = 260;
+    setInterval(spawnHeart, intervalMs);
+
+    // стартовая пачка
+    for (let i = 0; i < 10; i++) spawnHeart();
+
+    // лёгкий "конфетти-эффект" при клике
+    document.getElementById("yesBtn").addEventListener("click", () => {
+      for (let i = 0; i < 18; i++) spawnHeart();
+    });
+  </script>
+</body>
+</html>
+```
